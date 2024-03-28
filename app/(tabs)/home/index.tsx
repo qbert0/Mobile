@@ -1,4 +1,4 @@
-import { View, Text } from 'react-native'
+import { View, Text, TouchableOpacity } from 'react-native'
 import React from 'react'
 import { Link, Stack, } from 'expo-router'
 import RecommentDoctor from '../../../components/card/RecommentDoctor'
@@ -19,7 +19,11 @@ const HomePage = () => {
         
       </View>
       
-
+      <Link href={`../scheduleDoctor/bookClinic`} asChild>
+        <TouchableOpacity>
+          <Text>Bat dau</Text>
+        </TouchableOpacity>
+      </Link>
       <RecommentDoctor />
     </View>
     </>
