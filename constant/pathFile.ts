@@ -7,13 +7,13 @@ interface pathname {
 
 export const pathScreen = {
     advise : {
-        path : "/home/advise",
+        path : "/home/(adviseDoctor)",
         name : "advise",
         lable: "Tu van"
     },
 
-    order : {
-        path : "/home/order",
+    schedule : {
+        path : "/home/(scheduleDoctor)",
         order: "order",
         label : "dat lich"
     }

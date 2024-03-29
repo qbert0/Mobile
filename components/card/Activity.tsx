@@ -21,7 +21,7 @@ const Activity = () => {
         className=' w-full grid grid-rows-2'
       >
         <ButtonDesign path={pathScreen.advise.path} label={pathScreen.advise.lable} />
-        <ButtonDesign path={pathScreen.advise.path} label={pathScreen.order.label} />
+        <ButtonDesign path={pathScreen.schedule.path} label={pathScreen.schedule.label} />
       </ImageBackground>
       
       

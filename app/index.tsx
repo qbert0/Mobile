@@ -3,7 +3,7 @@ import { Text, View } from "react-native";
 
 const StartPage = () => {
   return (
-    <Redirect href={"/home"}/>
+    <Redirect href={"./home"}/>
   )
 }
 

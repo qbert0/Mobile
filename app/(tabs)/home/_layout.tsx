@@ -31,17 +31,18 @@ const HomeLayout = () => {
           }}
         />
         <Stack.Screen 
-          name='advise'
+          name='(adviseDoctor)'
           options={{
-            headerShown : true,
+            headerShown : false,
           }}
         />
         <Stack.Screen 
-          name='post'
+          name='(scheduleDoctor)'
           options={{
-            headerShown : true,
+            headerShown : false,
           }}
         />
+        
     </Stack>
   )
 }
