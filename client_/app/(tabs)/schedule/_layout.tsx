@@ -12,18 +12,17 @@ const SettingLayout = () => {
         <Stack.Screen 
             name='(option)'
             options={{
-              headerShown: true,
-              headerTitle: () => (
-                <View className="w-ful">
-                  <Text className="text-white flex-row justify-center text-2xl font-semibold ">
-                    Lịch khám
-                  </Text>
-                </View>
-              ),
+              headerTitle: 'Lịch khám',
+              headerTitleAlign: 'center',
               headerStyle: {
-                backgroundColor: "#0860c4",
+                  backgroundColor: '#FFFFFF',
+              },     
+              headerTintColor: '#000000',
+              headerTitleStyle: {
+                  fontWeight: '100',
+                  fontSize: 18,
               },
-            }}
+          }}
         />
     </Stack>
   )

@@ -166,6 +166,7 @@ const Index = () => {
           <Text style={{ marginLeft: 5 }}> Hotline: </Text>
           <Text style={{ fontWeight: "500", fontSize: 16 }}> 1900 6868</Text>
         </View>
+
         {/* <Button title="Create Customer" onPress={createCustomer} /> */}
       </ScrollView>
     </GestureHandlerRootView>

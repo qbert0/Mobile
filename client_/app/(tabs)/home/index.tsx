@@ -1,4 +1,4 @@
-import { View, Text, Image, ScrollView } from "react-native";
+import { View, Text, Image, ScrollView, TouchableOpacity } from "react-native";
 import React from "react";
 import { Link, Stack } from "expo-router";
 import ButtonDesign from "@/components/card/ButtonDesign";
@@ -54,6 +54,17 @@ const StartPage = () => {
               </View>
             </View>
         </View>
+        <Link href={`/chat/AI_chat`} asChild>
+          <TouchableOpacity>
+            <Text>AI CHAT DEMO</Text>
+          </TouchableOpacity>
+          </Link>
+        
+          <Link href={`/chat/AI_chat_test`} asChild>
+          <TouchableOpacity>
+            <Text>AI CHAT TEST</Text>
+          </TouchableOpacity>
+          </Link>
       </ScrollView>
     </>
   );

@@ -1,4 +1,5 @@
 import os
+import uvicorn
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.tools import tool
@@ -17,9 +18,31 @@ from langchain_core.runnables import RunnablePassthrough
 from langchain.chains import create_retrieval_chain
 from langchain_core.messages import HumanMessage, AIMessage
 
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi import FastAPI, File, UploadFile, Form, Body
 
 
-os.environ['OPENAI_API_KEY'] = 'sk-proj-NMCuvXhSyL81HMWOXa40T3BlbkFJ9nlZWfnPHsrtwiLs5bLF'
+app = FastAPI(
+    title="Langchain API",
+    description="API for Langchain",
+    version="0.1"
+)
+
+origins = ["*"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+    expose_headers=["*"],
+)
+
+
+
+os.environ['OPENAI_API_KEY'] = 'sk-proj-H8O4QtCpj0K6FBF2bU0ZT3BlbkFJExFddD8CM7MyKRm8Qfj8'
 llm = ChatOpenAI(model="gpt-3.5-turbo")
 embedding = OpenAIEmbeddings()
 
@@ -45,20 +68,6 @@ prompt = ChatPromptTemplate.from_messages(
 )
 
 # retriever_tool
-q_a_content = supabase.table("Chat_chat").select("content").execute()
-q_a_content = str(q_a_content.data[0]["content"])
-docs_content = [Document(page_content=q_a_content)]
-
-file_paths = ["test.txt", "test_02.txt"]
-for file_path in file_paths:
-    with open(file_path, "r", encoding="utf-8") as f:
-        content = f.read()
-    docs_content.append(Document(page_content=content))
-
-text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200, add_start_index=True)
-documents = text_splitter.split_documents(docs_content)
-vector = FAISS.from_documents(documents, embedding)
-retriever = vector.as_retriever()
 @tool
 def retriever_tool(question):
     """
@@ -66,6 +75,21 @@ def retriever_tool(question):
    consultation rules, how to register for a consultation, staff, and hospital policies, 
    such as discount policies, registration regulations, and procedures during consultations. 
    For example, "Do I get a discount?", "Do I need to...?", "Am I required to...?" """
+    q_a_content = supabase.table("Chat_chat").select("content").execute()
+    print("q_a_content", q_a_content)
+    q_a_content = str(q_a_content.data)
+    docs_content = [Document(page_content=q_a_content)]
+
+    file_paths = ["test.txt", "test_02.txt"]
+    for file_path in file_paths:
+        with open(file_path, "r", encoding="utf-8") as f:
+            content = f.read()
+        docs_content.append(Document(page_content=content))
+
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200, add_start_index=True)
+    documents = text_splitter.split_documents(docs_content)
+    vector = FAISS.from_documents(documents, embedding)
+    retriever = vector.as_retriever()
 
     system_prompt = """
     Bạn là nhân viên bệnh viện, hãy trả lời câu hỏi của bệnh nhân dựa vào context:
@@ -130,18 +154,31 @@ tools = [getDoctorBySpecialtyName, retriever_tool]
 agent = create_openai_tools_agent(llm, tools, prompt)
 agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True, return_intermediate_steps=True)
 
-def parse_retriever_input(chain_input):
+@app.post("/test/")
+def parse_retriever_input(chain_input: str = Form(...), user_id: str = Form(...)):
+
     stored_messages = chain_input
     response = agent_executor.invoke(
-        {"input": stored_messages['input'],
+        {"input": stored_messages,
             "chat_history": chat_history.messages
         },
         {"configurable": {"session_id": "user_1"}},
     )
     chat_history.add_user_message(response["input"])
     chat_history.add_ai_message(response['output'])
-    print("chat_history_is", chat_history)
 
+    content = {
+        "question": [
+            response["input"]
+        ],
+        "z_answer": [
+            response["output"]
+        ]
+    }
+    data, count = supabase.table("Chat_chat").insert({"content": content, "user_id": user_id}).execute()
+
+    # chat_history.add_user_message(chain_input)
+    # print("chat_history", chat_history)
 
     return response     #params["messages"] bi loi
 
@@ -156,14 +193,16 @@ chain_with_chat_history = RunnableWithMessageHistory(
     history_messages_key="chat_history"
 )
 
-while True:
-    user_input = input("User: ")
-    response = agent_chain.invoke(
-        {
-            "input": user_input,
-        },
-        {"configurable": {"session_id": "user_1"}},
-    )
-    print(response)
+# while True:
+#     user_input = input("User: ")
+#     response = agent_chain.invoke(
+#         {
+#             "input": user_input,
+#         },
+#         {"configurable": {"session_id": "user_1"}},
+#     )
+#     print(response)
 
 
+if __name__ == "__main__":
+    uvicorn.run("ai_chat_02:app", host="0.0.0.0", port=8000, reload=True)

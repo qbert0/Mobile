@@ -31,25 +31,23 @@ const Layout = () => {
         <MaterialTopTabs screenOptions={{
         }}>
             <MaterialTopTabs.Screen 
-                name="index"
+                name="pending"
                 options={{
                 }}
             />
             <MaterialTopTabs.Screen 
-                name="pass"
+                name="completed"
                 options={{
                 }}
             />
             <MaterialTopTabs.Screen 
-                name="notdone"
+                name="cancelled"
                 options={{
                 }}
             />
             
         </MaterialTopTabs>
-        <View className=" px-2 py-2 ">
-            <CustomButton title="Hẹn lịch khám" onPress={start} />
-        </View>
+
         
         </>
     )

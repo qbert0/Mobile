@@ -35,12 +35,12 @@
           "photosPermission": "Selecct and upload images.",
           "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera."
         }
-
-      ]
+      ],
+      "expo-font"
     ],
-    "experiments" : {
-      "typedRoutes":true,
-      "tsconfigPaths" : true
+    "experiments": {
+      "typedRoutes": true,
+      "tsconfigPaths": true
     }
   }
 }
