@@ -17,30 +17,30 @@ model User {
   custumer  Customer[]
   doctor    Doctor?
   nurse     Nurse?
+  Order     Order[]
 }
 
 model Doctor {
-  id        String   @id @default(uuid())
+  id        String      @id @default(uuid())
   name      String
-  userId    String   @unique
+  userId    String      @unique
   clinics   Clinic[]
-  user      User     @relation(fields: [userId], references: [id])
-  listOrder Order[]  @relation("doctorOrdered")
+  user      User        @relation(fields: [userId], references: [id])
+  Specialty Specialty[]
 }
 
 model Order {
-  id          String    @id @default(uuid())
-  createAt    DateTime  @default(now())
-  comment     String
-  customer_id String
-  doctorId    String
-  date_time   DateTime? @db.Date
-  hour_time   String?
-  clinicId    String?
+  id          BigInt    @id(map: "order_pkey") @default(autoincrement())
+  clinic_id   String?
+  customer_id String?
+  date        String?
+  hour        String?
   status      Status?   @default(Pending)
-  Customer    Customer  @relation(fields: [customer_id], references: [id], map: "Order_customId_fkey")
-  doctor      Doctor    @relation("doctorOrdered", fields: [doctorId], references: [id])
-  Clinic      Clinic?   @relation(fields: [clinicId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "public_Order_clinicId_fkey")
+  user_id     String?
+  symptom     String?
+  Clinic      Clinic?   @relation(fields: [clinic_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  Customer    Customer? @relation(fields: [customer_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Order_customId_fkey")
+  User        User?     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model Thread {
@@ -77,28 +77,27 @@ model Profile {
   customId        String
   createAt        DateTime      @default(now())
   title           String
-  reconment        String
+  reconment       String
   listExamination Examination[] @relation("profile")
   customer        Customer      @relation("customerProfile", fields: [customId], references: [id])
 }
 
 model Examination {
-  id        String   @id @default(uuid())
-  createAt  DateTime @default(now())
-  comment String
+  id         String   @id @default(uuid())
+  createAt   DateTime @default(now())
+  profileId  String
+  comment    String
+  profile    Profile  @relation("profile", fields: [profileId], references: [id])
   listResult Result[] @relation("examination")
-  profileId String
-  profile   Profile  @relation("profile", fields: [profileId], references: [id])
 }
 
 model Result {
-  id String @id @default(uuid())
-  image String[]
-  comment String
-  name String
+  id            String      @id @default(uuid())
+  image         String[]
+  comment       String
+  name          String
   examinationId String
-  examination Examination @relation("examination", fields: [examinationId], references: [id])
-
+  examination   Examination @relation("examination", fields: [examinationId], references: [id])
 }
 
 model Customer {
@@ -125,9 +124,11 @@ model Nurse {
 }
 
 model Specialty {
-  id      String   @id @default(uuid())
-  name    String?  @unique
-  clinics Clinic[]
+  id        String   @id @default(uuid())
+  name      String?  @unique
+  doctor_id String?
+  clinics   Clinic[]
+  Doctor    Doctor?  @relation(fields: [doctor_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model Clinic {
@@ -137,8 +138,8 @@ model Clinic {
   major        String
   price        Int
   specialty_id String?
-  Specialty    Specialty? @relation(fields: [specialty_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "_DoctorToSpecialty_B_fkey")
   Doctor       Doctor     @relation(fields: [doctor_id], references: [id], onDelete: Cascade, map: "_DoctorToSpecialty_A_fkey")
+  Specialty    Specialty? @relation(fields: [specialty_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "_DoctorToSpecialty_B_fkey")
   Order        Order[]
 
   @@unique([id, doctor_id], map: "_DoctorToSpecialty_AB_unique")

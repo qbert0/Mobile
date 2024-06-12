@@ -6,6 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="4a4212a3-6e83-4447-aee3-46cb794de989" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/API/prisma/schema.prisma" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client_/utils/axios.js" beforeDir="false" afterPath="$PROJECT_DIR$/client_/utils/axios.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
