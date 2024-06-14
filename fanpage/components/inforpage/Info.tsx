@@ -4,6 +4,7 @@ import { DoctorDataType, convertDataToDoctorType } from "@/contants/Type/DoctorT
 import instance from "@/untils/axios";
 import InfoDoctor from "./InfoDoctor";
 import Clinics from "./Clinics";
+import ClinicForm from "./ClinicForm";
 
 interface Props {
     id : string
@@ -17,6 +18,7 @@ const CusPage = async ({id} : Props) => {
         <div className="">
             <InfoDoctor doctor={doctor}/>
             <Clinics doctor={doctor}/>
+            <ClinicForm doctor={doctor}/>
         </div>
     )
 }
