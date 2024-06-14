@@ -69,6 +69,7 @@ const ClinicForm = ({ doctor }: Props) => {
         setPrice('');
         setSpecialtyId('');
         setShowForm(false);
+        window.location.reload();
       }
     } catch (err) {
       setError('Có lỗi xảy ra khi tạo phòng khám.');
