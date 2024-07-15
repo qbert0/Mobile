@@ -11,17 +11,19 @@ interface Props {
 const FieldInput = ({title, setTitle} : Props) => {
   const placeholder = fieldInputTitle.placeholder
   return (
-    <View className='grow -z-10 px-3'>
-    <ScrollView className='h-30'>
-      <TextInput
-      underlineColorAndroid="transparent"
-      placeholder={placeholder}
-      placeholderTextColor="grey"
-      numberOfLines={10}
-      multiline={true}
-      onChangeText={setTitle}
-      />
-    </ScrollView>
+    <View className='grow -z-10 px-1 '>
+      <ScrollView className='px-1 shadow-xl '>
+        <TextInput
+        className='w-full h-full'
+        underlineColorAndroid="transparent"
+        placeholder={placeholder}
+        placeholderTextColor="grey"
+        numberOfLines={8}
+        scrollEnabled={false}
+        multiline={true}
+        onChangeText={setTitle}
+        />
+      </ScrollView>
     
     </View>
   )

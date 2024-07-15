@@ -6,12 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="4a4212a3-6e83-4447-aee3-46cb794de989" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client_/app/(public)/_layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client_/app/(public)/_layout.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client_/app/(tabs)/home/_layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client_/app/(tabs)/home/_layout.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client_/app/(tabs)/medical/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client_/app/(tabs)/medical/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client_/app/(tabs)/medical/result.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client_/app/(tabs)/medical/result.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client_/app/personal/listMember.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client_/app/personal/listMember.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client_/components/patientRecord/PatientProfile.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client_/components/patientRecord/PatientProfile.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,11 +31,13 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;ScreenRecorder.SavePath&quot;: &quot;C:\\Temp&quot;,
+    &quot;ScreenshotViewer.SavePath&quot;: &quot;C:/BTL-UI/UI/client/assets&quot;,
     &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
     &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;duong02&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/BTL-Mobile/Mobile&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;device.mirroring&quot;
+    &quot;last_opened_file_path&quot;: &quot;C:/BTL-UI/UI/client/assets&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.tabs&quot;
   }
 }</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />

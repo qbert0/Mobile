@@ -7,7 +7,7 @@ prisma = new PrismaClient()
 class ThreadsController {
     async getThreadById(req, res) {
         try {
-            const id = req.params.thread_id
+            const id = req.query.threadID
             const data = await prisma.thread.findMany({
                 where: { id: id },
                 include : {
@@ -35,13 +35,14 @@ class ThreadsController {
     async createComent(req, res) {
         try {
             const {
+                userId,
                 id,
                 content,
                 name,
             } = req.body
             const data = await prisma.comment.create({
                 data : {
-                    customerId : "8b57944c-1e70-4a2e-83ec-30532e698de3",
+                    customerId : userId,
                     threadId : id,
                     content : content,
                     name : name

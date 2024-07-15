@@ -41,7 +41,7 @@ const Myself = () => {
     <View className='h-full pt-1 w-full bg-background '>
       <ScrollView className="w-full h-full">
         {listTheard.map((thread) => (
-            <Post key={thread.id} thread={thread} />
+            <Post key={thread.id} thread={thread} isMyself={true}/>
           ))}
       </ScrollView>
     </View>

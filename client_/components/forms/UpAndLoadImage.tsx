@@ -9,8 +9,12 @@ import BottomSheet from '@gorhom/bottom-sheet'
 import { BottomSheetBackdrop, BottomSheetView } from '@gorhom/bottom-sheet'
 import { useMyContext } from '../context/UpLoadContext';
 import { BottomSheetMethods } from '@gorhom/bottom-sheet/lib/typescript/types';
-
-
+import { createClient } from '@supabase/supabase-js';
+import { decode } from 'base64-arraybuffer';
+const client = createClient(
+    'https://snwjzonusggqqymhbluj.supabase.co',
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNud2p6b251c2dncXF5bWhibHVqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTE2MTU4MTEsImV4cCI6MjAyNzE5MTgxMX0.H-4glIFgFb31Gu3sl2X4nqFOnJw5MDKa0Yjf2SvW4A0'
+  );  
 const imgDir = FileSystem.documentDirectory + 'images/'
 
 const ensureDirExists = async () => {
@@ -24,12 +28,14 @@ interface Props {
     images : string[]
     setImages : ([] : string[]) => void,
     open : () => void ,
+    setImageUpload : (image : string) => void
 }
 
 const UpAndLoadImage =  ({
     setImages, 
     images,
     open,
+    setImageUpload,
     } : Props) => {
     const [loading, setLoading] = useState(false)
     
@@ -69,8 +75,22 @@ const UpAndLoadImage =  ({
             result = await ImagePicker.launchCameraAsync(options);
         }
 
-        if (!result.canceled) {
-            saveImage(result.assets[0].uri);
+        if(!result.canceled) {
+            try {
+            const img = result.assets[0];
+            // const base64 = await FileSystem.readAsStringAsync(img.url, {encoding:'base64'})
+            const base64 = await FileSystem.readAsStringAsync(img.uri, { encoding: 'base64' });
+            const filePath = `${new Date().getTime()}.${img.type === 'image' ? "png" : 'mp4'}`
+            const contentType = img.type === 'image' ? 'image/png' : 'video/mp4';
+            const data = await client.storage.from('file').upload(filePath, decode(base64), {contentType})
+            
+            saveImage(result.assets[0].uri)
+            setImageUpload(filePath)
+            } catch (error) {
+                console.error(error)
+            }
+            
+
         }
     } 
     const saveImage = async (uri: string) => {

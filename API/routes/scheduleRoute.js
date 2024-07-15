@@ -15,4 +15,5 @@ router.get('/hourbydate/:doctor_id/:date_time', scheduleRoute.getHourByDate)
 router.get('/getAllOrder/:customer_id', scheduleRoute.GetAllOrders)
 router.get('/getCustomerByCustomerId/:customer_id', scheduleRoute.getCustomerByCustomerId)
 router.get('/getClinicByClinicId/:clinic_id', scheduleRoute.getClinicByClinicId)
+router.get('/getRecommentDoctor', scheduleRoute.getRecommentDoctors)
 module.exports = router

@@ -57,6 +57,25 @@ class userController {
       });
     }
   }
+
+  async SearchUser(req, res) {
+    try {
+      const email = req.query.email;
+      const data = await prisma.user.findMany({
+        where :{
+          emai : email,
+        }
+      });
+      console.log(data);
+      res.send(data);
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({
+        errorCode: 1,
+        msg: "Server" + error.message,
+      });
+    }
+  }
 }
 
 module.exports = new userController();

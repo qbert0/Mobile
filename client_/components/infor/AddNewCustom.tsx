@@ -61,6 +61,7 @@ const AddNewCustom = () => {
           date,
           address
         });
+        console.log(customr)
         if(!customr) {
             Alert.alert(
                 'Nhập chưa '
@@ -136,7 +137,11 @@ const alertMessing = (messing : string) => {
             {
                 text: "Thoát",
                 onPress : () => {
-                    router.back()
+                    if (router.canGoBack()) {
+                        router.back()
+                      } else {
+                        router.push('/(tabs)/home')
+                    }
                 }
             },
             {
@@ -159,7 +164,11 @@ const accesAdd = () => {
             {
                 text: "Thoát",
                 onPress : () => {
-                    router.back()
+                    if (router.canGoBack()) {
+                        router.back()
+                      } else {
+                        router.push('/(tabs)/home')
+                    }
                 }
             }
         ]

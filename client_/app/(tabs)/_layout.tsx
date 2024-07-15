@@ -8,7 +8,8 @@ const TabLayout = () => {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: "#000", // sua mau tabbar active o day
+        tabBarActiveTintColor: "#0860c4", // sua mau tabbar active o day
+        // tabBarInactiveTintColor : ""
       }}
     >
       {tabbar.map((tab: tabbarsub) => (

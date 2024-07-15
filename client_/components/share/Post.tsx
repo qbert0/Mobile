@@ -6,45 +6,44 @@ import {   ThreadDataType, convertCreateAt, convertName } from '../pageThread/Th
 import { useRouter } from 'expo-router'
 import { Ionicons } from '@expo/vector-icons';
 import { convertComment } from '@/utils/page/comment'
+import AvatarImage from '../pageThread/AvatarImage'
 
 
 interface Props {
     thread : ThreadDataType,
-  
+    isMyself : boolean;
 }
 
-const Post = ({thread} : Props) => {
+const Post = ({thread, isMyself} : Props) => {
     const router = useRouter()
 
     const OnThread = () => {
-        router.push(`/(adviceDoctor)/${thread.id}/thread`)
+        const path = `${thread.id},${isMyself}`
+        router.push(`/(adviceDoctor)/${path}/thread`)
     }
 
   return (
     <TouchableOpacity 
     onPress={OnThread}
-    className='w-full px-2 py-1 bg-bg-post  my-1'
+    className=' px-2 py-1 bg-bg-post mx-2 my-1.5'
     style={{
-        // flexDirection: "row",
-        // height: 16,
-        // padding: 16,
-        backgroundColor: "#FFFFFF",
         borderRadius: 8,
-        shadowColor: "#000000",
-        shadowOpacity: 0.1,
-        shadowRadius: 2 ,
-        elevation: 2,
-        // flex: 1,
-        // alignItems: "center",
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
     }}
     >
         {/* header */}
         <View className='flex-row mb-1 justify-center items-center pl-2 mt-1'>
             <View className="w-10 h-10 p-0.5 rounded-full mr-4 bg-white flex justify-center items-center">
-                <View className=" w-full h-full bg-majorbg rounded-full flex justify-center items-center">
-                    <Ionicons name="person" size={30} color='white' />
-                </View>
+                <AvatarImage  gender={thread.gender} age={thread.age}/>
             </View>
+            
             <View className='flex-col flex-1'>
                 <Text className='text-sm font-semibold'>{convertName(thread.gender, thread.age)}</Text>
                 <Text className='text-sm font-light italic'>{convertCreateAt(thread.createAt)}</Text>
@@ -61,6 +60,7 @@ const Post = ({thread} : Props) => {
                 thread.comment.length > 0 && 
                 <CommentDoctor 
                 comment={thread.comment[0]}
+                gender={thread.gender}
             />
             }
         </View>

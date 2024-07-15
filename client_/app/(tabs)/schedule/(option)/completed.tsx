@@ -5,7 +5,7 @@ import instance from '@/utils/axios'
 import { createClient } from '@supabase/supabase-js';
 import { MaterialTopTabs } from './_layout';
 import Index from '../../setting';
-
+import Ngu from '../../../../components/ngu'
 
 const customer_id = "8b57944c-1e70-4a2e-83ec-30532e698de3"
 const client = createClient(
@@ -59,6 +59,9 @@ const SchedulePage = () => {
       {doctors.map((content, index) => (
         <Text>{doctors[index]['name']}</Text>
       ))}
+
+      <Ngu />
+      
     </>
   )
 }

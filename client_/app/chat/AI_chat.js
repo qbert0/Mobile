@@ -4,6 +4,7 @@ import { TextInput, Button } from 'react-native-rapi-ui';
 import { createClient } from '@supabase/supabase-js'
 import { useAuth } from '@clerk/clerk-expo';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Stack } from 'expo-router';
 
 
 
@@ -17,7 +18,7 @@ const TestComponent = () => {
 
     const user = useAuth()
     user_id = user.userId
-    const url = "http://10.30.53.166:8000"
+    const url = "http://192.168.1.5:8000"
     const [humanChat, setHumanChat] = useState('');
     const [questionList, setQuestionList] = useState([])
     const [answerList, setAnswerList] = useState([])
@@ -63,16 +64,17 @@ const TestComponent = () => {
 
     // Hien thi cau chat moi (4)
     const getChatUpdate = async () => {
-        try {
-            const {data, error} = await supabase.from("Chat_chat").select().eq("user_id", user_id)
-            const content = data.map(item => item.content)
-            const z_answer = content.map(item => item.z_answer)
-            setAnswerList(z_answer)
-            setIsLoading(false)
-        } catch (error) {
-            console.error("Error getChatUpdate", error)
-        }
+      try {
+        const {data, error} = await supabase.from("Chat_chat").select().eq("user_id", user_id)
+        const content = data.map(item => item.content)
+        const z_answer = content.map(item => item.z_answer)
+        setAnswerList(z_answer)
+        setIsLoading(false)
+    } catch (error) {
+        console.error("Error getChatUpdate", error)
     }
+  }
+
     // check database real-time  (3)
     useEffect(() => {
         const channelA = supabase
@@ -95,6 +97,20 @@ const TestComponent = () => {
     
     return (
       <>
+       <Stack.Screen
+                options={{
+                    headerTitle: 'Tư vấn ',
+                    headerTitleAlign: 'center',
+                    headerStyle: {
+                        backgroundColor: '#FFFFFF',
+                    },     
+                    headerTintColor: '#000000',
+                    headerTitleStyle: {
+                        fontWeight: '100',
+                        fontSize: 18,
+                    },
+                }}
+            />
       <ScrollView 
         style={{ flex: 1, padding: 10 }}
         contentContainerStyle={{ flexDirection: 'column' }}
@@ -107,7 +123,7 @@ const TestComponent = () => {
               <Text style={{ color: '#FFFFFF' }}>{questionList[index]}</Text>
             </View>
             <View style={{ alignSelf: 'flex-start', backgroundColor: '#E5E7EB', borderRadius: 20, padding: 10, marginBottom: 5, marginLeft: 20, maxWidth: '75%' }}>
-              {isLoading === false ? <Text>{answerList[index]}</Text> : <Text>...</Text>}
+             <Text>{answerList[index]}</Text>
             </View>
           </View>
         ))}

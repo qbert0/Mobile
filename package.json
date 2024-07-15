@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "@react-native-community/slider": "^4.5.0",
-    "API": "file:../API"
-
+    "API": "file:../API",
+    "zod": "^3.23.8"
   }
 }

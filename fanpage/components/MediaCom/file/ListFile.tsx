@@ -22,7 +22,7 @@ const ListFile = ({listFile} : Props) => {
             }
             {
                 listFile.length === 0 &&
-                <div>ngu
+                <div>
                 </div>
             }
             </div>

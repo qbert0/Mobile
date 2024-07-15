@@ -1,7 +1,7 @@
 import { Text, View } from "react-native"
 import ThreadAnser from "./ThreadAnser"
 import { ThreadTitle } from "@/constant/screen/threads"
-import { Comment } from "./ThreadDataType"
+import { Comment, sortComment } from "./ThreadDataType"
 
 interface anser {
     name : string,
@@ -14,20 +14,20 @@ interface Props {
 }
 
 const ThreadAnserBox = ({anser} : Props) => {
-
+    const anserSort = sortComment(anser)
    
     return (
         <>
-        <View className="w-full px-3 py-1 bg-anserBox">
+        <View className="w-full px-3 py-1 ">
             {/* header */}
-            <View className="py-3">
-                <Text className="font-medium text-base">
+            <View className="py-1.5">
+                <Text className="font-medium text-lg">
                     {ThreadTitle.anser + " "}
                 </Text>
 
             </View>
 
-            {anser.map((i, index) => (
+            {anserSort.map((i, index) => (
                 <ThreadAnser 
                 key={index}
                 name={i.name}

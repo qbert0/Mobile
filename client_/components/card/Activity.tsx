@@ -13,13 +13,13 @@ const Activity = () => {
           path={pathScreen.advise.path} 
           label={pathScreen.advise.lable} 
         >
-          <MaterialCommunityIcons name="chat-question" size={24} color="#0860c4" />
+          <MaterialCommunityIcons name="chat-question" size={24} color="#194d89" />
         </ButtonDesign>
         <ButtonDesign 
           path={pathScreen.order.path} 
           label={pathScreen.order.label} 
         >
-          <MaterialCommunityIcons name="robot-excited" size={24} color="#0860c4" />
+          <MaterialCommunityIcons name="robot-excited" size={24} color="#194d89" />
         </ButtonDesign>
     </View>
   )

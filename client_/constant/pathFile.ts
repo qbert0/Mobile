@@ -13,7 +13,7 @@ export const pathScreen = {
     },
 
     order : {
-        path : "/chat/chat_for_customer",
+        path : "/chat/AI_chat",
         order: "order",
         label : "Tư vấn nhanh"
     }

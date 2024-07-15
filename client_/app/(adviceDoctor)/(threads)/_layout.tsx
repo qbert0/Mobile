@@ -30,12 +30,14 @@ const Layout = () => {
     return (
         <>
         <MaterialTopTabs screenOptions={{
-            
+            // tabBarPressColor: "#fff",
+            // tabBarActiveTintColor : "#0860c4",
+            // tabBarInactiveTintColor : "#fff",
         }}>
             <MaterialTopTabs.Screen 
                 name="advice"
                 options={{
-                    
+                  
                 }}
             />
             <MaterialTopTabs.Screen 

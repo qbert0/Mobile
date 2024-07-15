@@ -42,7 +42,7 @@ app.add_middleware(
 
 
 
-os.environ['OPENAI_API_KEY'] = 'sk-proj-H8O4QtCpj0K6FBF2bU0ZT3BlbkFJExFddD8CM7MyKRm8Qfj8'
+os.environ['OPENAI_API_KEY'] = 'sk-proj-qpCmBm3wDA6QmcUdhFG1T3BlbkFJ6mJLy7biuPDRXyFBRBpm'
 llm = ChatOpenAI(model="gpt-3.5-turbo")
 embedding = OpenAIEmbeddings()
 
@@ -131,7 +131,7 @@ def retriever_tool(question):
 # chi chay 1 lan ?
 def getDoctorBySpecialtyName(symptom: str):
     """Get doctor information (name, price, rating, specialty_name) by symptom"""
-    specialty = supabase.table("Specialty_chat").select("specialty_name").execute()
+    specialty = supabase.table("Specialty").select("name").execute()
     symptom_to_specialty_name_prompt = ChatPromptTemplate.from_messages(
         [
            ("system", "dựa vào symptom của bệnh nhân, hãy chọn 1 trong các specialty sau, in ra duy nhất tên specialty, không in thêm bất cứ gì: \
@@ -146,8 +146,10 @@ def getDoctorBySpecialtyName(symptom: str):
         {"symptom": symptom,
          "specialty": specialty},
     )   
-    doctors = supabase.table("Specialty_chat").select("specialty_name, Doctor_chat(*)").eq("specialty_name", specialty_name).execute()
+    doctors = supabase.table("Specialty").select("*, Doctor(*)").eq("name", specialty_name).execute()
     return doctors
+
+
 chat_history = ChatMessageHistory()
 
 tools = [getDoctorBySpecialtyName, retriever_tool]
@@ -177,32 +179,28 @@ def parse_retriever_input(chain_input: str = Form(...), user_id: str = Form(...)
     }
     data, count = supabase.table("Chat_chat").insert({"content": content, "user_id": user_id}).execute()
 
-    # chat_history.add_user_message(chain_input)
-    # print("chat_history", chat_history)
-
     return response     #params["messages"] bi loi
 
-agent_chain = (
-    RunnablePassthrough.assign(context= parse_retriever_input)
-) 
-
-chain_with_chat_history = RunnableWithMessageHistory(
-    agent_chain,
-    lambda session_id: chat_history,
-    input_messages_key="input",
-    history_messages_key="chat_history"
-)
-
-# while True:
-#     user_input = input("User: ")
-#     response = agent_chain.invoke(
-#         {
-#             "input": user_input,
-#         },
-#         {"configurable": {"session_id": "user_1"}},
-#     )
-#     print(response)
-
+@app.post("/getDoctorBySymptom/")
+def get_doctor_by_symptom(symptom: str = Form(...)):
+    specialty = supabase.table("Specialty").select("name").execute()
+    symptom_to_specialty_name_prompt = ChatPromptTemplate.from_messages(
+        [
+           ("system", "dựa vào symptom của bệnh nhân, hãy chọn 1 trong các specialty sau, in ra duy nhất tên specialty, không in thêm bất cứ gì: \
+            <specialty> \
+            {specialty} \
+            </specialty>"),
+            ("human", "{symptom}")
+        ]
+    )
+    get_specialty_name_chain = symptom_to_specialty_name_prompt | llm | StrOutputParser()
+    specialty_name = get_specialty_name_chain.invoke(
+        {"symptom": symptom,
+         "specialty": specialty},
+    ) 
+    specialty_id = supabase.table("Specialty").select("id").eq("name", specialty_name).execute()
+    print("specialty_id", specialty_id)
+    return specialty_id
 
 if __name__ == "__main__":
     uvicorn.run("ai_chat_02:app", host="0.0.0.0", port=8000, reload=True)

@@ -1,5 +1,5 @@
 import ThreadAnserBox from "@/components/pageThread/ThreadAnserBox"
-import { ConvertDatatoThreadObject, ThreadDataType } from "@/components/pageThread/ThreadDataType"
+import { ConvertDatatoThreadObject, ThreadDataType, convertName } from "@/components/pageThread/ThreadDataType"
 import ThreadHeader from "@/components/pageThread/ThreadHeader"
 import ThreadQuestion from "@/components/pageThread/ThreadQuestion"
 import { headThread } from "@/constant/screen/threads"
@@ -9,6 +9,7 @@ import { useEffect, useState } from "react"
 import {   View } from "react-native"
 import { GestureHandlerRootView, ScrollView } from "react-native-gesture-handler"
 import { createClient } from '@supabase/supabase-js';
+import { useAuth } from "@clerk/clerk-expo"
 
 const client = createClient(
     'https://snwjzonusggqqymhbluj.supabase.co',
@@ -16,14 +17,17 @@ const client = createClient(
 );
 const Thread = () => {
     const { id } = useLocalSearchParams();
+    if(typeof id !== "string") return
+    const newid = splitStringAtCustomChar(id, ',')
     const [theard, setThreard] = useState<ThreadDataType>()
 
     // load thread 
     const getThreadForId = async () => {
         try {
-            const data = await instance.get(`/getThreadById/${id}`)
+            const data = await instance.get(`/getThreadById?threadID=${newid[0]}`)
             const test : ThreadDataType = ConvertDatatoThreadObject(data)
             setThreard(test)
+            console.log(test)
         }catch (e) {
             console.log(e)
         }
@@ -44,7 +48,7 @@ const Thread = () => {
             schema: 'public',
             table: 'chat'
         },
-        () => console.log("o ben thread")
+        () => getThreadForId()
         )
         .subscribe()
         // console.log("after add thread")
@@ -52,17 +56,20 @@ const Thread = () => {
         return () => {
             channelA.unsubscribe();
         }
-    }, []);
+    });
 
     // submit cau tra loi hoac cau hoi 
     const onSubmit = async  (question : string) => {
         console.log(question)
         if(!question) return
+        if(!theard) return
         const data = await instance.post("/createComment", {
-            id,
+            userId : theard.customId,
+            id : theard.id,
             content : question,
-            name : "nam 23"
+            name : convertName(theard.gender, theard.age)
         })
+        console.log(theard.customId)
         getThreadForId()
     }
     return (
@@ -83,6 +90,7 @@ const Thread = () => {
                     title={theard.content}
                     major={theard.major}
                     image={theard.image}
+                    puImage={theard.puImage}
                 />
                 }
                 {
@@ -92,9 +100,13 @@ const Thread = () => {
                     />
                 }
             </ScrollView>
-            <ThreadQuestion 
-                onsubmit={onSubmit}
-            />
+
+            {newid[1] === "true" &&
+                <ThreadQuestion 
+                    onsubmit={onSubmit}
+                />
+            }
+            
             </GestureHandlerRootView>
         </View>
         
@@ -105,3 +117,8 @@ const Thread = () => {
 
 
 export default Thread
+
+
+const splitStringAtCustomChar = (input: string, separator: string): string[] => {
+    return input.split(separator);
+}

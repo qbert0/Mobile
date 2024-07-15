@@ -108,14 +108,14 @@ const Doctor_Service = ({params}) => {
           <TouchableOpacity style={styles.serviceContainer} onPress={() => toggleModal(index)}>
             <View style={styles.icon_infor}>
               <View style={styles.icon}>
-                <MaterialIcons name="playlist-add-check" size={24} color="#66FF33" />  
+                <MaterialIcons name="playlist-add-check" size={24} color="#339966" />  
               </View>
               <View style={styles.infor}>
                 <Text style={{fontSize: 16, fontWeight:'600', color:'#111827'}}>{clinic_['name']}</Text>
                 <Text style={{fontSize:13, marginTop:5}}>{clinic_['major']}</Text>
                 <Text style={{fontSize:14, marginTop:5, fontWeight:'300'}}>{specialty[index]['name']}</Text>
                 <View style={{flexDirection:'row', marginTop:5}} >
-                  <Foundation name="dollar-bill" size={24} color="#66FF33" />
+                  <Foundation name="dollar-bill" size={24} color="#339966" />
                   <Text style={{marginTop:2, marginLeft:10}} >{clinic_['price']}</Text>
                 </View>
               </View>
@@ -450,7 +450,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   button: {
-    backgroundColor: '#00FF33',
+    backgroundColor: '#339966',
     borderRadius: 9999,
     paddingVertical: 8,
     paddingHorizontal: 32,
@@ -486,7 +486,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   selected: {
-    backgroundColor: "#66FF33",
+    backgroundColor: "#339966",
     borderWidth: 1,
     borderColor: "black",
     color: "black",

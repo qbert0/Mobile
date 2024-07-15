@@ -5,19 +5,19 @@ const prisma = new PrismaClient()
 
 
 class test {
-    async createNewExamiForWeb (req, res) {
+    async getRecommentDoctors(req, res) {
         try {
-            const response = await prisma.order.findMany({
+            const data = await prisma.order.findMany({
                 
-            });
-      
-            res.send(response);
-          } catch (error) {
-            console.log(error);
+            })
+            console.log(data)
+            res.send(data)
+        } catch (error) {
+            console.log(error)
             res.status(500).json({
-              errorCode: 1,
-              msg: "Server error: " + error.message
-            });
-          }
+                errorCode:1,
+                msg: "Server" + error.message
+            })
         }
+    }
 }

@@ -8,23 +8,28 @@ const useCustomers = () => {
   const [listOfCustomers, setListOfCustomers] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchCustomer = async () => {
-      setIsLoading(true);
-      try {
-        const response = await instance.get(`/customer?userId=${userId}`);
-        if (Array.isArray(response)) {
-          setListOfCustomers(response);
-        } else {
-          console.error("Expected an array but got:", typeof response);
-          setListOfCustomers([]);
+  
+
+
+  const fetchCustomer = async () => {
+        setIsLoading(true);
+        try {
+          const response = await instance.get(`/customer?userId=${userId}`);
+          if (Array.isArray(response)) {
+            setListOfCustomers(response);
+          } else {
+            console.error("Expected an array but got:", typeof response);
+            setListOfCustomers([]);
+          }
+        } catch (error) {
+          console.error(error);
+        } finally {
+          setIsLoading(false);
         }
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
+  };
+
+  useEffect(() => {
+    
 
     fetchCustomer();
   }, []);

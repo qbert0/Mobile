@@ -18,15 +18,15 @@ model User {
   doctor    Doctor?
   nurse     Nurse?
   Order     Order[]
+  Order     Order[]
 }
 
 model Doctor {
-  id        String      @id @default(uuid())
-  name      String
-  userId    String      @unique
-  clinics   Clinic[]
-  user      User        @relation(fields: [userId], references: [id])
-  Specialty Specialty[]
+  id      String   @id @default(uuid())
+  name    String
+  userId  String   @unique
+  clinics Clinic[]
+  user    User     @relation(fields: [userId], references: [id])
 }
 
 model Order {
@@ -35,7 +35,17 @@ model Order {
   customer_id String?
   date        String?
   hour        String?
+  id          BigInt    @id(map: "order_pkey") @default(autoincrement())
+  clinic_id   String?
+  customer_id String?
+  date        String?
+  hour        String?
   status      Status?   @default(Pending)
+  user_id     String?
+  symptom     String?
+  Clinic      Clinic?   @relation(fields: [clinic_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  Customer    Customer? @relation(fields: [customer_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Order_customId_fkey")
+  User        User?     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   user_id     String?
   symptom     String?
   Clinic      Clinic?   @relation(fields: [clinic_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
@@ -78,11 +88,17 @@ model Profile {
   createAt        DateTime      @default(now())
   title           String
   reconment       String
+  reconment       String
   listExamination Examination[] @relation("profile")
   customer        Customer      @relation("customerProfile", fields: [customId], references: [id])
 }
 
 model Examination {
+  id         String   @id @default(uuid())
+  createAt   DateTime @default(now())
+  profileId  String
+  comment    String
+  profile    Profile  @relation("profile", fields: [profileId], references: [id])
   id         String   @id @default(uuid())
   createAt   DateTime @default(now())
   profileId  String
@@ -96,7 +112,12 @@ model Result {
   image         String[]
   comment       String
   name          String
+  id            String      @id @default(uuid())
+  image         String[]
+  comment       String
+  name          String
   examinationId String
+  examination   Examination @relation("examination", fields: [examinationId], references: [id])
   examination   Examination @relation("examination", fields: [examinationId], references: [id])
 }
 
@@ -138,6 +159,7 @@ model Clinic {
   major        String
   price        Int
   specialty_id String?
+  Doctor       Doctor     @relation(fields: [doctor_id], references: [id], onDelete: Cascade, map: "_DoctorToSpecialty_A_fkey")
   Doctor       Doctor     @relation(fields: [doctor_id], references: [id], onDelete: Cascade, map: "_DoctorToSpecialty_A_fkey")
   Specialty    Specialty? @relation(fields: [specialty_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "_DoctorToSpecialty_B_fkey")
   Order        Order[]

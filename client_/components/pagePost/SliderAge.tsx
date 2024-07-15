@@ -19,18 +19,18 @@ const SliderAge = ({chooseAge, ageDefault} : Props) => {
     <>
     <View className='w-full flex-none px-2 '>
         <View className=''>
-            <Text>{AgeTitle.ageA}</Text>
+            <Text className='text-base font-normal'>{AgeTitle.ageA}</Text>
         </View>
         <View className=' flex justify-center mb-5 px-10 '>
             <View className='flex justify-center items-center '>
-                <Text>{Math.floor(age) + " " + AgeTitle.agea}</Text>
+                <Text className='text-sm '>{Math.floor(age) + " " + AgeTitle.agea}</Text>
             </View>
             
             <Slider 
               style= {{
                 width : "100%",
                 height: 30,
-                backgroundColor: "#fdf4f4"
+                backgroundColor: "#fefefe"
               }}
               value={age}
               onValueChange={(value) => update(value)}

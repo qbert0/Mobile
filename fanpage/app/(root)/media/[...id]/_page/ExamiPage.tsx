@@ -1,9 +1,12 @@
 'use server'
 
-import Exami from "@/components/MediaCom/Exami/Exami"
+// import Exami from "@/components/MediaCom/Exami/Exami"
 import { ExamiDataType, convertDataTofileType } from "@/components/MediaCom/ResultType"
 import InforCus from "@/components/MediaCom/inforCus"
 import instance from "@/untils/axios"
+import dynamic from 'next/dynamic'
+
+const Exami  = dynamic(() => import("@/components/MediaCom/Exami/Exami"), { ssr: false }) 
 
 interface Props {
     id : string,

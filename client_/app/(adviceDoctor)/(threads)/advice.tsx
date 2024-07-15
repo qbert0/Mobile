@@ -29,10 +29,10 @@ useEffect(() => {
     <MaterialTopTabs.Screen options={{
       title : tabTitle.communicate,
     }}/>
-    <View className='h-full w-full bg-background pt-1'>
+    <View className='h-full w-full bg-[#f8f9fa] pt-1'>
       <ScrollView className="w-full h-full">
         {listTheard.map((thread) => (
-            <Post key={thread.id} thread={thread} />
+            <Post key={thread.id} thread={thread} isMyself={false}/>
           ))}
       </ScrollView>
     </View>

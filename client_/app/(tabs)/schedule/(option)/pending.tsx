@@ -1,12 +1,7 @@
 import { View, Text, TouchableOpacity, ScrollView, StyleSheet, Modal, Image, Alert, ActivityIndicator } from 'react-native'
 import { Link, Stack, router } from 'expo-router'
 import  react, { useEffect, useState } from 'react'
-import instance from '@/utils/axios'
 import { createClient } from '@supabase/supabase-js';
-import { get } from 'http';
-import { convertCreateAt } from '@/components/pageThread/ThreadDataType';
-import ScheduleOrderButton from '@/components/schedule/SchduleOrderButton';
-import CustomButton from '@/components/customButton';
 import { MaterialTopTabs } from './_layout';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useAuth } from '@clerk/clerk-expo';
@@ -95,7 +90,7 @@ const SchedulePage = () => {
   const getNewestCustomerIdByOrder = async () => {
     try {
       setIsLoading(true)
-      const {data, error} = await client.from("Order").select("*, Clinic(*, Doctor(*), Specialty(*)), Customer (*)").eq("status", "Pending").order("id", {ascending: false})
+      const {data, error} = await client.from("Order").select("*, Clinic(*, Doctor(*), Specialty(*)), Customer (*)").eq("status", "Pending").eq("user_id", userId).order("id", {ascending: false})
       const customerId_ : any = data && data[0] ? data[0]['customer_id'] : null;
       const customer_ : any = data && data[0] ? data[0]['Customer'] : null;
       const clinics_ : any = data?.map(item => item.Clinic)
@@ -232,15 +227,20 @@ const SchedulePage = () => {
                     borderRadius: 10,
                     alignItems: 'center',
                     }}>
-      {customers && customers.length> 0 && <Text style={{fontSize: 14, color: '#333'}}>Lịch khám của thành viên      </Text>}
-      <View style={{flexDirection:'row', justifyContent: 'space-between'}}>
-      {customers && customers.length> 0 && (
-        <Text style={{fontSize:14, fontWeight:"500", color:"#339966"}}> 
-            {customers[0]['firstName']} {customers[0]['lastName']}  </Text>)}
-        <TouchableOpacity onPress={() => setModalVisible(true)}>
-          <FontAwesome style = {{marginHorizontal:0}} name="pencil-square-o" size={18} color="#339966" />
-        </TouchableOpacity>
+      {customers && customers.length > 0 && 
+      <View className='flex-row w-full h-full justify-between rounded-xl'>
+          <Text style={{fontSize: 14, color: '#333'}}>Lịch khám của thành viên</Text>
+          <View style={{flexDirection:'row'}}>
+            <TouchableOpacity className='flex-row ' onPress={() => setModalVisible(true)}>
+              <Text style={{fontSize:14, fontWeight:"500", color:"#339966"}}> 
+                  {customers[0]['firstName']} {customers[0]['lastName']}  </Text>
+              <FontAwesome name="pencil-square-o" size={18} color="#339966" />
+            </TouchableOpacity>
+          </View>
       </View>
+      
+      }
+      
     </View>
 
     <Modal
@@ -273,7 +273,7 @@ const SchedulePage = () => {
                                         <Text style={styles.phone}>     | 0393486450 </Text>
                                     </View>
                                     <Text>Địa chỉ: </Text>
-                                    <TruncatableText maxLength={50}>KTX Mỹ Đình - Đơn nguyên 1, Mỹ Đình, Nam Từ Liêm, Hà Nội </TruncatableText>
+                                    <TruncatableText maxLength={40}>KTX Mỹ Đình - Đơn nguyên 1, Mỹ Đình, Nam Từ Liêm, Hà Nội </TruncatableText>
                                     {customer['id'] === customerSelected && (
                                     <TouchableOpacity style={styles.button}>
                                         <Text style={styles.text}>Mặc định</Text>
@@ -290,7 +290,7 @@ const SchedulePage = () => {
                 </View>
             ))}
             <View style={styles.separator} />
-            <Link href={{ pathname: './addCustomer' }} asChild>
+            <Link href={{ pathname: '/personal/addMember' }} asChild>
                     <TouchableOpacity style={styles.add_member}>
                         <MaterialCommunityIcons style ={{marginHorizontal:10}} name="account-plus" size={20} color="#009966" />
                         <Text >Thêm thành viên</Text>
@@ -437,43 +437,54 @@ const SchedulePage = () => {
           }} 
           asChild>
           <TouchableOpacity>
-            <View>
-              <View style={styles.date}>
-                <Text style={{fontSize:14, fontWeight:"500", color:"#339966"}}>Sắp tới</Text>
-                <Text style={{marginHorizontal:10}}>{order['date']}</Text>
-                <Text>{order['hour']}</Text>
-                <View style={styles.icon_}>
+            <View className='flex-col '>
+              <View className='flex-row '>
+                <View className='flex-col items-center ml-1 mr-2'>
+                    <Text className='mb-2' style={{fontSize:14, fontWeight:"500", color:"#339966"}}>Sắp tới</Text>
+                    <View style={styles.image} className='flex justify-center items-center'>
+                      <Image
+                        style={{width: 50, height: 50}}
+                        source={{ uri: 'https://png.pngtree.com/png-clipart/20230918/ourmid/pngtree-photo-men-doctor-physician-chest-smiling-png-image_10132895.png' }}
+                      />
+                    </View> 
+                </View>
+
+
+                <View className='flex-col'>
+                    <View className='flex-row'>
+                      <Text style={{marginHorizontal:10}}>{order['date']}</Text>
+                      <Text>{order['hour']}</Text>
+                    </View>
+                    <View style={styles.infor}>
+                      <View className='flex-row mt-1 '>
+                        <Text>Bác sĩ: </Text>
+                        <Text style={{fontWeight:'600'}}>{clinics[index]['Doctor']['name']}</Text>
+                      </View>
+                      <Text className='mt-1'>{clinics[index]['Specialty']['name']}</Text>
+                      <View style={styles.symptom} className='mt-0.5 '>
+                        <Text>Triệu chứng: </Text>
+                        <Text style={{color:'#FF6666'}}>{order['symptom']}</Text>
+                      </View>
+                      <View style={styles.separator} />
+                    </View>
+                </View>
+              </View>
+                
+                
+                <View style={styles.icon_} className='absolute top-0 right-0'>
                   <FontAwesome style = {{marginHorizontal:10}} name="pencil-square-o" size={18} color="#339966" />
                   <TouchableOpacity onPress={() => openDangerModal(order['id'])}>
                     <FontAwesome5 name="trash-alt" size={18} color="#339966" />
                   </TouchableOpacity>
                 </View>
-              </View>
-              <View style={styles.doctor}>
 
-                <View style={styles.image}>
-                  <Image
-                    style={{width: 50, height: 50}}
-                    source={{ uri: 'https://png.pngtree.com/png-clipart/20230918/ourmid/pngtree-photo-men-doctor-physician-chest-smiling-png-image_10132895.png' }}
-                  />
-                </View>
-                <View style={styles.infor}>
-                  <View style={{flexDirection: 'row'}}>
-                  <Text>Bác sĩ:          </Text>
-                  <Text style={{fontWeight:'600'}}>{clinics[index]['Doctor']['name']}</Text>
-                  </View>
-                  <Text style={{marginTop:10}}>{clinics[index]['Specialty']['name']}</Text>
-                  <View style={styles.symptom}>
-                    <Text>Triệu chứng:     </Text>
-                    <Text style={{color:'#FF6666'}}>{order['symptom']}</Text>
-                  </View>
-                  <View style={styles.separator} />
-                  </View>
                 
-                </View>
+                
+                
 
+                {/* price  */}
                 <View style={styles.price}>
-                  <Text style={{ fontWeight:"500"}}>Thành tiền:    </Text>
+                  <Text style={{ fontWeight:"500"}}>Thành tiền: </Text>
                   <Text style={{color:"#FF0000", fontWeight:"500"}}>{clinics[index]['price']} VND</Text>
                 </View>
             </View>
@@ -623,7 +634,6 @@ image: {
     height: 50,
     backgroundColor: 'white',
     borderRadius: 50,
-    marginRight: 10,
 },
 symptom:{
     flexDirection: 'row',

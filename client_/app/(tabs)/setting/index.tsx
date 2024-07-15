@@ -115,7 +115,7 @@ const Index = () => {
               </View>
             </TouchableOpacity>
           </Link>
-          <Link href={'/(tabs)/schedule/(option)/pass'} asChild>
+          <Link href={'/(tabs)/schedule/(option)/pending'} asChild>
             <TouchableOpacity style={styles.option}>
               <View style={styles.icon}>
                 <FontAwesome5 name="calendar-check" size={25} color="#0860c4" />

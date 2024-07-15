@@ -1,21 +1,30 @@
-1. cach chay :
-   thay ip vao file client\_/utils/axios.js
-
-cd api : npx nodemon server.js
-cd client : npm start
-
----
-
-### Hướng dẫn chạy chatbot
-
+# Ứng dụng đặt lịch khám 
+Ứng dụng cho phép người dùng đặt trước lịch hẹn với bác sĩ mong muốn cho bản thân hoặc thành viên trong gia đình. Đồng thời cho chép người bệnh quản lý hồ sơ bệnh án của mình
+## Hướng dẫn cài đặt
 ```
-- cd modelf
-- pip install -r requirements.txt
-- tao 2 file chứa nội dung cần test (test.txt, test_02.txt)
-- python ai_chat_02.py
-- thay url bang ip cua minh file AI_chat.js dong 13
-
+git clone https://github.com/qbert0/Mobile.git
+cd client_
+npx expo start
+cd ..
+cd api
+npx nodemon server.js
+cd ..
+cd model
+python ai_chat_02.py
 ```
+## Công nghệ sử dụng
+### framework/ library: 
+- nodeJs
+- expo
+- react native
+- langchain 
+- fastAPI
 
-- Tìm bác sĩ (Tôi bị đau răng,..)
-- Hỏi về thông tin bệnh viện và hướng dẫn khám (sử dụng lịch sử chat và file hướng dẫn của bệnh viện)
+### database:
+- supabase
+- prisma
+
+### programming language:
+- javascript
+- python
+

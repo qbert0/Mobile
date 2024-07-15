@@ -1,7 +1,6 @@
 import { Separator } from "@/components/ui/separator";
 
 
-
 const MediaLayout = ({children} : {children : React.ReactNode}) => {
 
   return (

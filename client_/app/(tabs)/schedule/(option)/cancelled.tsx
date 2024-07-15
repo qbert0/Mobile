@@ -52,7 +52,7 @@ const SchedulePage = () => {
   const getNewestCustomerIdByOrder = async () => {
     try {
       setIsLoading(true)
-      const {data, error} = await client.from("Order").select("*, Clinic(*, Doctor(*), Specialty(*)), Customer (*)").eq("status", "Cancelled").order("id", {ascending: false})
+      const {data, error} = await client.from("Order").select("*, Clinic(*, Doctor(*), Specialty(*)), Customer (*)").eq("status", "Cancelled").eq("user_id", userId).order("id", {ascending: false})
       const customerId_ : any = data && data[0] ? data[0]['customer_id'] : null;
       const customer_ : any = data && data[0] ? data[0]['Customer'] : null;
       const clinics_ : any = data?.map(item => item.Clinic)

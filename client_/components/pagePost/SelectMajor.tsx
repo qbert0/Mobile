@@ -24,6 +24,7 @@ const SelectMajor = ({setMajor, major } : Props) => {
         searchPlaceholder={MajorTitle.search}
         label={MajorTitle.major}
         boxStyles={{borderRadius:0}}
+        
     />
   )
 

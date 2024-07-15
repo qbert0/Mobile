@@ -87,7 +87,8 @@ const RootLayoutNav = () => {
       publishableKey={CLERK_PUBLISHABLE_KEY!}
       tokenCache={tokenCache}
     >
-      <InitialLayout />
+        <InitialLayout />
+      
     </ClerkProvider>
   );
 };

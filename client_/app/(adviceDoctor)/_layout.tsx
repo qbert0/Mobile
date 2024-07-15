@@ -5,7 +5,17 @@ import { tabTitle } from '@/constant/screen/threads'
 
 const AdviseLayout = () => {
   return (
-    <Stack>
+    <Stack
+    screenOptions={{
+        headerStyle: {
+          backgroundColor: "#0860c4",
+        },
+        headerTintColor: "#fff",
+        headerTitleStyle: {
+          fontWeight: "bold",
+        },
+    }}
+    >
         <Stack.Screen
             name='(threads)'
             options={{

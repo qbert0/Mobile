@@ -2,8 +2,28 @@ import { ScrollView, Text, View, TouchableOpacity } from "react-native"
 import InforDoctor from "../card/InforDoctor"
 import { Ionicons } from '@expo/vector-icons';
 import { Link } from "expo-router";
+import instance from "@/utils/axios";
+import { useEffect, useState } from "react";
+import { RecomentDoctor, convertDataToRecommentDoctor } from "./type";
 
 const ReviewDoctor = () => {
+
+    const [listDoctor, setListDoctor] = useState<RecomentDoctor[]>([])
+
+    const getListDoctor = async () => {
+        try {
+            const data : any = await instance.get(`/getRecommentDoctor`)
+            const test : RecomentDoctor[] = convertDataToRecommentDoctor(data)
+            console.log(test)
+            setListDoctor(test)
+             
+        } catch (e) {
+            console.log(e)
+        }
+    }
+    useEffect(() => {
+        getListDoctor()
+    }, [])
 
     return (
         <View className='bg-background flex-col px-2 pt-1'>
@@ -13,7 +33,7 @@ const ReviewDoctor = () => {
                         Bác sĩ có lịch khám
                     </Text>
                 </View>
-                <Link href={'/(tabs)/medical'}
+                <Link href={'/scheduleDoctor/bookDoctor'}
                     className="pr-2 ">
                     <Text className='mr-2 text-all text-base'>
                         Tất cả
@@ -21,10 +41,12 @@ const ReviewDoctor = () => {
                 </Link>
             </View>
             <View className="flex-col  ">
-                <InforDoctor />
-                <InforDoctor />
-                <InforDoctor />
 
+                {
+                    listDoctor.map((doc : RecomentDoctor, index ) => (
+                        <InforDoctor key={index} doctor={doc}/>
+                    ))
+                }
 
             </View>
 

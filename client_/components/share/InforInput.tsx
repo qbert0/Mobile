@@ -28,6 +28,7 @@ const InforInput = () => {
     const [title, setTitle] = useState<string>('')
     const [puImage, setPuImage] = useState(true)
     const {userId} = useAuth()
+    const [imageUp, setImageUp] = useState('')
 
     const snapPoint2 = useMemo(() => [  '25%' ], ['0%'])
     const bottomSheetRef2 = useRef<BottomSheet>(null)
@@ -55,30 +56,32 @@ const InforInput = () => {
       if(!checkAlert()) {
         return
       }
-      console.log(gender, age, puImage, images[0], major, title )
+      console.log(gender, age, puImage, images[0], imageUp, major, title )
       await instance.post(`/createNewThread`, {
         userId : userId,
         gender : gender,
         age : age.toString(), 
         puImage :puImage, 
-        image : images[0],
+        image : imageUp,
         major : major,
         title : title,
       })
       done()
+
+      // console.log(res);
     }
     
   return (
     <>
     <MyContext.Provider value={{ myFunction, updateMyFunction }}>
-      <GestureHandlerRootView className='bg-bg w-full h-full flex-col'>
+      <GestureHandlerRootView className='w-full bg-bg-post h-full flex-col'>
       <KeyboardAvoidingView 
         className='grow'
         keyboardVerticalOffset={50}
       >
-        <ScrollView className='flex '>
+        <ScrollView className='flex flex-1'>
         {/* note title */}
-        <View className='w-full flex-none bg-blue-200 justify-center mb-2 items-center p-5'>
+        <View className='w-full flex-none bg-blue-100 justify-center mb-2 items-center px-4 py-3 '>
           <Text className='text-red-500 font-medium'>{noteTitle.title}</Text>
         </View>
 
@@ -110,6 +113,7 @@ const InforInput = () => {
           open={handleOpenPress2}
           images={images} 
           setImages={setImages}
+          setImageUpload={setImageUp}
         />
 
         

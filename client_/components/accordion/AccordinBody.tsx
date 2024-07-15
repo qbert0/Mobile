@@ -31,6 +31,7 @@ const styles = StyleSheet.create({
     }
 })
 const defaultLink = "https://files.edgestore.dev/w3yo8jqa6b3xtuvu/publicFiles/_public/"
+
 interface Props {
     image? : string
     comment? : string

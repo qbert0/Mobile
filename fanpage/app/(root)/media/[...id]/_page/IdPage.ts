@@ -12,3 +12,7 @@ export const ProfilePageLink = (id :string) => {
 export const ExamipagePageLink = (id : string) => {
     return `/media/${id}/${IdPage.examination}`
 }
+
+export const UserPageLink = (id : string) => {
+    return `/media/${id}/${IdPage.customer}`
+}

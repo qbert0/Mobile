@@ -21,7 +21,7 @@ const GenderBox = ({ChooseGander, genderDefault} : Props) => {
     <>
     <View className='w-full flex-none flex-col px-2 mb-1'>
         <View className='mb-3'>
-            <Text>{GenderTitle.gender}</Text>
+            <Text className='text-base font-normal'>{GenderTitle.gender}</Text>
         </View>
        <View className='w-full border-spacing-0.5 flex justify-center items-center '>
             <View className='w-1/2 flex-row items-center'>
@@ -30,14 +30,14 @@ const GenderBox = ({ChooseGander, genderDefault} : Props) => {
                 onPress={() => press(Gender.man)}
             >
                 <MaterialCommunityIcons name="gender-male" size={20} color={gender === Gender.man ? "white" : "black"} />
-                <Text className={`${gender===Gender.man && "text-white"} ml-0.5 text-sm`}>{GenderTitle.man}</Text>
+                <Text className={`${gender===Gender.man && "text-white"} ml-0.5 text-base font-normal`}>{GenderTitle.man}</Text>
             </TouchableOpacity>
             <TouchableOpacity 
                 className= {`w-1/2 h-10 flex-row justify-center items-center rounded-r-full bg-slate-400 ${gender === Gender.woman && "bg-blue-500"}`}
                 onPress={() => press(Gender.woman)}
             >
                 <MaterialCommunityIcons name="gender-female" size={20} color={gender === Gender.woman ? "white" : "black"} />
-                <Text className={`${gender===Gender.woman && "text-white"} ml-0.5 text-sm`}>{GenderTitle.woman}</Text>
+                <Text className={`${gender===Gender.woman && "text-white"} ml-0.5 text-base font-normal`}>{GenderTitle.woman}</Text>
             </TouchableOpacity>
             </View>
             

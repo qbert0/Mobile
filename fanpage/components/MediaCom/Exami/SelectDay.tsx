@@ -1,13 +1,13 @@
 'use client'
 import { TabsTrigger } from "@/components/ui/tabs"
 
-
 interface Props {
     value : string,
     date : Date
 }
 
 const SelectDay = ({value, date} : Props) => {
+
 
     return (
         <div className="px-2 py-1 mx-2 my-1 flex justify-center items-center rounded-md">

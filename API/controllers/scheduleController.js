@@ -32,6 +32,37 @@ class scheduleController {
         }
     }
 
+    async getRecommentDoctors(req, res) {
+        try {
+            const data = await prisma.clinic.findMany({
+                select : {
+                    name : true,
+                    doctor_id : true,
+                    Doctor : {
+                        select : {
+                            name : true,
+                        }
+                    }
+                },
+                orderBy: {
+                    Order : {
+                        _count : 'asc'
+                    }
+                },
+                take : 3
+            })
+            console.log(data)
+            res.send(data)
+        } catch (error) {
+            console.log(error)
+            res.status(500).json({
+                errorCode:1,
+                msg: "Server" + error.message
+            })
+        }
+    }
+
+
     async getDoctorById(req, res) {
         try {
             const doctor_id = req.params.doctor_id

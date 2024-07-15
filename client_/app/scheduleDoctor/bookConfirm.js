@@ -1,6 +1,6 @@
 import { View, Text, ScrollView, TouchableOpacity, Modal, StyleSheet, TextInput } from "react-native"
 import { FontAwesome } from '@expo/vector-icons';
-import { Link } from "expo-router";
+import { Link, Stack } from "expo-router";
 import { MaterialIcons } from '@expo/vector-icons';
 import { Fontisto } from '@expo/vector-icons';
 
@@ -26,11 +26,10 @@ const BookConfirm = () => {
     const updateParams = (params) => {
         setParamsUpdate(params)
     }
-    return(
-      <>
-       <Stack.Screen
+    return(<>
+      <Stack.Screen
                 options={{
-                    headerTitle: 'Xác nhận ',
+                    headerTitle: 'Chọn phòng khám',
                     headerTitleAlign: 'center',
                     headerStyle: {
                         backgroundColor: '#FFFFFF',
@@ -41,17 +40,19 @@ const BookConfirm = () => {
                         fontSize: 18,
                     },
                 }}
-            />
-        <ScrollView>
+      />
+      <ScrollView>
             <ClinicComponent params={params}></ClinicComponent>
             <CustomerComponent params={params}></CustomerComponent>
             <DoctorComponent params={params}></DoctorComponent>
             <DateComponent params={params} updateParams={updateParams}></DateComponent>
             <DangerComponent params={params} updateParams={updateParams}></DangerComponent>
             <ConfirmButton params={paramsUpdate} user_id={user_id}></ConfirmButton>
-        </ScrollView>
-        </>
-
+      </ScrollView>
+    
+    </>
+        
+        
     )
 }
 
@@ -64,6 +65,7 @@ const ClinicComponent = ({ params }) => {
     const getClinicByClinicId = async () => {
         try {
             const { data, error } = await client.from("Clinic").select("*, Specialty(*)").eq("id", params.clinic_id);
+            const a = await client.storage.from("order").select
             if (error) {
                 console.log("Error getting clinic by clinic_id:", error);
             } else {
@@ -705,7 +707,7 @@ const ConfirmButton = ({params, user_id})  => {
           <TouchableOpacity
           style={{
             alignItems: 'center',
-            marginTop: 100,
+            marginTop: 50,
             backgroundColor: '#33CC99',
             margin: 40,
             height: 50,
