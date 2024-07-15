@@ -29,7 +29,6 @@ const ClinicForm = ({ doctor }: Props) => {
     setIsSubmitting(true);
     setError('');
     setSuccess('');
-
     try {
       // Fetch the maximum id from the Clinic table
       const { data: maxIdData, error: maxIdError } = await client
@@ -37,13 +36,11 @@ const ClinicForm = ({ doctor }: Props) => {
         .select('id', { count: 'exact' })
         .order('id', { ascending: false })
         .limit(1);
-
       if (maxIdError) {
         setError('Có lỗi xảy ra khi tạo phòng khám.');
         console.error('Error fetching max id:', maxIdError);
         return;
       }
-
       // Calculate the next id to use
       const nextId = maxIdData ? parseInt(maxIdData[0]?.id) + 1 || 1 : 1;
 
@@ -60,7 +57,6 @@ const ClinicForm = ({ doctor }: Props) => {
             specialty_id: specialtyId
           }
         ]);
-
       if (error) {
         setError('Có lỗi xảy ra khi tạo phòng khám.');
         console.error('Error creating clinic:', error);
