@@ -28,3 +28,5 @@ python ai_chat_02.py
 - javascript
 - python
 
+### Review:
+xem sản phẩm tại: https://www.youtube.com/watch?v=Sp3CfQQybHo
